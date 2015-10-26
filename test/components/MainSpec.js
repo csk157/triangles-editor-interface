@@ -12,6 +12,22 @@ import Main from 'components/Main';
 import Editor from 'components/Editor';
 import Toolbox, { TOOLS } from 'components/Toolbox';
 
+const color = {
+  hex: '333333',
+  rgb: {
+    r: 51,
+    g: 51,
+    b: 51,
+    a: 1,
+  },
+  hsl: {
+    h: 0,
+    s: 0,
+    l: 0.20,
+    a: 1,
+  },
+};
+
 describe('MainComponent', () => {
   let MainComponent;
 
@@ -46,25 +62,37 @@ describe('MainComponent', () => {
     expect(editors[0].props.color).to.be.null;
   });
 
-  it('onColorChanged sets currentColor in state', () => {
-    MainComponent.onColorChanged('#FF0000');
-    expect(MainComponent.state.currentColor).to.be.equal('#FF0000');
+  it('onColorChanged sets currentColor in state as hex', () => {
+    MainComponent.onColorChanged(color);
+    expect(MainComponent.state.currentColor).to.be.equal('#333333');
   });
 
   it('onColorChanged sets color in editor component', () => {
-    MainComponent.onColorChanged('#FFF000');
+    MainComponent.onColorChanged(color);
     const editors = TestUtils.scryRenderedComponentsWithType(MainComponent, Editor);
-    expect(editors[0].props.color).to.be.equal('#FFF000');
+    expect(editors[0].props.color).to.be.equal('#333333');
+  });
+
+  it('onColorChanged sets color in toolbox component', () => {
+    MainComponent.onColorChanged(color);
+    const toolboxes = TestUtils.scryRenderedComponentsWithType(MainComponent, Toolbox);
+    expect(toolboxes[0].props.color).to.be.equal('#333333');
   });
 
   it('onBgColorChanged sets bgColor in editor component', () => {
-    MainComponent.onBgColorChanged('#FFF000');
+    MainComponent.onBgColorChanged(color);
     const editors = TestUtils.scryRenderedComponentsWithType(MainComponent, Editor);
-    expect(editors[0].props.bgColor).to.be.equal('#FFF000');
+    expect(editors[0].props.bgColor).to.be.equal('#333333');
   });
 
-  it('onBgColorChanged sets currentBgColor in state', () => {
-    MainComponent.onBgColorChanged('#FF0000');
-    expect(MainComponent.state.currentBgColor).to.be.equal('#FF0000');
+  it('onBgColorChanged sets bgColor in toolbox component', () => {
+    MainComponent.onBgColorChanged(color);
+    const toolboxes = TestUtils.scryRenderedComponentsWithType(MainComponent, Toolbox);
+    expect(toolboxes[0].props.bgColor).to.be.equal('#333333');
+  });
+
+  it('onBgColorChanged sets currentBgColor in state as hex', () => {
+    MainComponent.onBgColorChanged(color);
+    expect(MainComponent.state.currentBgColor).to.be.equal('#333333');
   });
 });

@@ -26,6 +26,18 @@ describe('ToolboxComponent', () => {
     expect(colorPickers.length).to.be.equal(2);
   });
 
+  it('Color picker color matches toolbox color', () => {
+    ToolboxComponent = TestUtils.renderIntoDocument(<Toolbox color="#FF0000" />);
+    const colorPickers = TestUtils.scryRenderedComponentsWithType(ToolboxComponent, ColorPicker);
+    expect(colorPickers[0].props.color).to.be.equal('#FF0000');
+  });
+
+  it('Color picker color matches toolbox bgColor', () => {
+    ToolboxComponent = TestUtils.renderIntoDocument(<Toolbox bgColor="#FF0000" />);
+    const colorPickers = TestUtils.scryRenderedComponentsWithType(ToolboxComponent, ColorPicker);
+    expect(colorPickers[1].props.color).to.be.equal('#FF0000');
+  });
+
   it('onColorChange Prop function is called when color changes in color picker', () => {
     const spFn = Chai.spy();
     ToolboxComponent = TestUtils.renderIntoDocument(<Toolbox onColorChanged={spFn} />);

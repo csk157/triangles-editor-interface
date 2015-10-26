@@ -9,6 +9,8 @@ export const TOOLS = {
 
 class ToolboxComponent extends React.Component {
   static propTypes = {
+    color: React.PropTypes.string,
+    bgColor: React.PropTypes.string,
     selectedTool: React.PropTypes.string,
     onColorChanged: React.PropTypes.func,
     onBgColorChanged: React.PropTypes.func,
@@ -41,8 +43,8 @@ class ToolboxComponent extends React.Component {
           onClick={this.handleToolClickedFn(TOOLS.ERASER)}>
           Eraser
         </button>
-        <ColorPicker type="sketch" onChange={this.props.onColorChanged} />
-        <ColorPicker type="sketch" onChange={this.props.onBgColorChanged} />
+        <ColorPicker type="sketch" color={this.props.color} onChange={this.props.onColorChanged} />
+        <ColorPicker type="sketch" color={this.props.bgColor} onChange={this.props.onBgColorChanged} />
         <button className="save-png-btn"
           onClick={this.props.onSavePng}>
           Save as PNG

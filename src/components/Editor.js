@@ -24,6 +24,10 @@ class EditorComponent extends React.Component {
   componentDidMount() {
     this.createEditor();
   }
+  componentWillReceiveProps(nextProps) {
+    console.log('componentWillReceivePropse', nextProps);
+    this.setBackgroundColor(nextProps.bgColor);
+  }
   onMouseDown = (e) => {
     this.setState({isMouseDown: true});
     this.fillTriangle(eventToElementPoint(e));
