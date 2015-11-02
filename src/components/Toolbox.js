@@ -10,8 +10,10 @@ export const TOOLS = {
 class ToolboxComponent extends React.Component {
   static propTypes = {
     color: React.PropTypes.string,
+    grid: React.PropTypes.bool,
     bgColor: React.PropTypes.string,
     selectedTool: React.PropTypes.string,
+    onGridChanged: React.PropTypes.func,
     onColorChanged: React.PropTypes.func,
     onBgColorChanged: React.PropTypes.func,
     onToolChanged: React.PropTypes.func,
@@ -20,6 +22,7 @@ class ToolboxComponent extends React.Component {
   }
   static defaultProps = {
     selectedTool: TOOLS.FILL_TRIANGLE,
+    grid: true,
   }
   state = {
     fillColorPickerCollapsed: false,
@@ -92,6 +95,18 @@ class ToolboxComponent extends React.Component {
         {this.renderBgColorPicker()}
 
         <div className="save-options">
+          <div className="show-grid-switch">
+            <div className="switch">
+              <input id="cmn-toggle-1"
+                className="cmn-toggle cmn-toggle-round"
+                type="checkbox"
+                checked={this.props.grid}
+                onChange={this.props.onGridChanged} />
+              <label htmlFor="cmn-toggle-1"></label>
+            </div>
+            <span>Show Grid</span>
+          </div>
+
           <button className="save-png-btn pure-button block-button"
             onClick={this.props.onSavePng}>
             <i className="fa fa-photo"></i> Save as PNG

@@ -42,6 +42,19 @@ class EditorComponent extends React.Component {
   setBackgroundColor(color) {
     this.state.editor.setBackgroundColor(color);
   }
+  getCorrectCanvasSize() {
+    return { width: window.innerWidth - 255, height: window.innerHeight };
+  }
+  getDataUrl() {
+    return this.state.editor.toDataUrl();
+  }
+  showGrid(show) {
+    if (show) {
+      this.state.editor.showGrid();
+    } else {
+      this.state.editor.hideGrid();
+    }
+  }
   fillTriangle(point) {
     if (this.props.color) {
       this.state.editor.fillTriangleAt(point, this.props.color);
@@ -55,10 +68,11 @@ class EditorComponent extends React.Component {
     }, () => this.setBackgroundColor(this.props.bgColor));
   }
   render() {
+    const size = this.getCorrectCanvasSize();
     return (
       <div className="editor pure-u-3-4">
-        <canvas width="800"
-          height="500"
+        <canvas width={size.width}
+          height={size.height}
           ref="canvas"
           onMouseDown={this.onMouseDown}
           onMouseMove={this.onMouseMove}
