@@ -1,16 +1,15 @@
 require('normalize.css');
-require('styles/App.css');
+require('purecss');
+require('styles/App.scss');
 
 import React from 'react';
 import Editor from './Editor';
 import Toolbox, { TOOLS } from './Toolbox';
 
-const yeomanImage = require('../images/yeoman.png');
-
 class AppComponent extends React.Component {
   state = {
     currentColor: '#000000',
-    currentBgColor: 'transparent',
+    currentBgColor: '#FFFFFF',
     currentTool: TOOLS.FILL_TRIANGLE,
   }
   onColorChanged = (color) => {
@@ -24,11 +23,9 @@ class AppComponent extends React.Component {
   }
   render() {
     return (
-      <div className="index">
+      <div className="">
         <Editor color={this.state.currentTool === TOOLS.ERASER ? null : this.state.currentColor} bgColor={this.state.currentBgColor} />
         <Toolbox color={this.state.currentColor} bgColor={this.state.currentBgColor} onColorChanged={this.onColorChanged} onBgColorChanged={this.onBgColorChanged} onToolChanged={this.onToolChanged} />
-        <img src={yeomanImage} alt="Yeoman Generator" />
-        <div className="notice">Please edit <code>src/components/Main.js</code> to get started!</div>
       </div>
     );
   }

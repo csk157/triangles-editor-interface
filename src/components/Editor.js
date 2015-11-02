@@ -25,7 +25,6 @@ class EditorComponent extends React.Component {
     this.createEditor();
   }
   componentWillReceiveProps(nextProps) {
-    console.log('componentWillReceivePropse', nextProps);
     this.setBackgroundColor(nextProps.bgColor);
   }
   onMouseDown = (e) => {
@@ -57,7 +56,7 @@ class EditorComponent extends React.Component {
   }
   render() {
     return (
-      <div className="editor">
+      <div className="editor pure-u-3-4">
         <canvas width="800"
           height="500"
           ref="canvas"

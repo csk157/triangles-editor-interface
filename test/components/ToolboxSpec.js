@@ -72,7 +72,7 @@ describe('ToolboxComponent', () => {
   });
 
   it('Has one save as png button', () => {
-    const saveBtn = TestUtils.scryRenderedDOMComponentsWithClass(ToolboxComponent, 'save-png-btn');
+    const saveBtn = TestUtils.scryRenderedDOMComponentsWithClass(ToolboxComponent, 'toolbox');
     expect(saveBtn.length).to.be.equal(1);
   });
 
@@ -113,6 +113,32 @@ describe('ToolboxComponent', () => {
   it('Has one rectangleFill button', () => {
     const triangleFillButtons = TestUtils.scryRenderedDOMComponentsWithClass(ToolboxComponent, 'fill-rectangle-btn');
     expect(triangleFillButtons.length).to.be.equal(1);
+  });
+
+  it('Toggles fill ColorPicker when clicking the title ', () => {
+    const colorPickerHeading = TestUtils.scryRenderedDOMComponentsWithClass(ToolboxComponent, 'fill-color-picker-title');
+    expect(colorPickerHeading.length).to.be.equal(1);
+
+    expect(ToolboxComponent.state.fillColorPickerCollapsed).to.be.false;
+    
+    TestUtils.Simulate.click(colorPickerHeading[0], {});
+    expect(ToolboxComponent.state.fillColorPickerCollapsed).to.be.true;
+
+    TestUtils.Simulate.click(colorPickerHeading[0], {});
+    expect(ToolboxComponent.state.fillColorPickerCollapsed).to.be.false;
+  });
+
+  it('Toggles bg ColorPicker when clicking the title ', () => {
+    const colorPickerHeading = TestUtils.scryRenderedDOMComponentsWithClass(ToolboxComponent, 'bg-color-picker-title');
+    expect(colorPickerHeading.length).to.be.equal(1);
+
+    expect(ToolboxComponent.state.bgColorPickerCollapsed).to.be.true;
+    
+    TestUtils.Simulate.click(colorPickerHeading[0], {});
+    expect(ToolboxComponent.state.bgColorPickerCollapsed).to.be.false;
+
+    TestUtils.Simulate.click(colorPickerHeading[0], {});
+    expect(ToolboxComponent.state.bgColorPickerCollapsed).to.be.true;
   });
 
   it('Has one eraseTriangle button', () => {
