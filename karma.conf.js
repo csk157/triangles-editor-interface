@@ -1,4 +1,5 @@
-var webpackCfg = require('./webpack.config');
+var path = require('path');
+var srcPath = path.join(__dirname, '/src/');
 
 module.exports = function(config) {
   config.set({
@@ -18,7 +19,39 @@ module.exports = function(config) {
     preprocessors: {
       'test/loadtests.js': ['webpack', 'sourcemap']
     },
-    webpack: webpackCfg,
+    webpack: {
+      devtool: 'eval',
+      module: {
+        loaders: [
+          {
+            test: /\.(png|jpg|gif|woff|woff2|css|sass|scss|less|styl)$/,
+            loader: 'null-loader'
+          },
+          {
+            test: /\.(js|jsx)$/,
+            loader: 'babel',
+            query: {
+              presets: ['react', 'es2015', 'stage-0']
+            },
+            include: [
+              path.join(__dirname, '/src'),
+              path.join(__dirname, '/test')
+            ]
+          }
+        ]
+      },
+      resolve: {
+        extensions: ['', '.js', '.jsx'],
+        alias: {
+          actions: srcPath + 'actions/',
+          helpers: path.join(__dirname, '/test/helpers'),
+          components: srcPath + 'components/',
+          sources: srcPath + 'sources/',
+          stores: srcPath + 'stores/',
+          styles: srcPath + 'styles/'
+        }
+      }
+    },
     webpackServer: {
       noInfo: true
     }

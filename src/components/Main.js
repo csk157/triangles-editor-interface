@@ -1,6 +1,4 @@
-require('normalize.css');
-require('purecss');
-require('styles/App.scss');
+require('../styles/App.scss');
 
 import React from 'react';
 import Editor from './Editor';
@@ -24,7 +22,9 @@ class AppComponent extends React.Component {
   }
   onSavePng = () => {
     const l = document.createElement('a');
+    this.refs.editor.showGrid(false);
     l.href = this.refs.editor.getDataUrl();
+    this.refs.editor.showGrid(this.state.showGrid);
     l.download = 'triangles.png';
     l.click();
   }
