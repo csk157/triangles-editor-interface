@@ -10,7 +10,7 @@ function eventToElementPoint(e) {
 
 class EditorComponent extends React.Component {
   static propTypes = {
-    color: React.PropTypes.string.isRequired,
+    color: React.PropTypes.string,
     bgColor: React.PropTypes.string.isRequired,
   }
   static defaultProps = {
@@ -43,7 +43,7 @@ class EditorComponent extends React.Component {
     this.state.editor.setBackgroundColor(color);
   }
   getCorrectCanvasSize() {
-    return { width: window.innerWidth - 255, height: window.innerHeight };
+    return { width: window.innerWidth, height: window.innerHeight };
   }
   getDataUrl() {
     return this.state.editor.toDataUrl();
@@ -64,14 +64,15 @@ class EditorComponent extends React.Component {
   }
   createEditor() {
     this.setState({
-      editor: new TriangleEditor(this.refs.canvas, {unitSize: 20}),
+      editor: new TriangleEditor(this.refs.canvas, { unitSize: 20 }),
     }, () => this.setBackgroundColor(this.props.bgColor));
   }
   render() {
     const size = this.getCorrectCanvasSize();
     return (
-      <div className="editor pure-u-3-4">
-        <canvas width={size.width}
+      <div>
+        <canvas
+          width={size.width}
           height={size.height}
           ref="canvas"
           onMouseDown={this.onMouseDown}

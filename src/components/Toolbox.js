@@ -12,7 +12,7 @@ class ToolboxComponent extends React.Component {
     color: React.PropTypes.string,
     grid: React.PropTypes.bool,
     bgColor: React.PropTypes.string,
-    selectedTool: React.PropTypes.string,
+    selectedTool: React.PropTypes.string.isRequired,
     onGridChanged: React.PropTypes.func,
     onColorChanged: React.PropTypes.func,
     onBgColorChanged: React.PropTypes.func,
@@ -49,7 +49,7 @@ class ToolboxComponent extends React.Component {
   renderFillColorPicker() {
     const wrapperClass = `fill-color-picker ${this.state.fillColorPickerCollapsed ? 'hidden' : ''}`;
     return (
-      <div>
+      <div className="column">
         <h3 onClick={this.handleToggleFillColorPicker} className="cursor-pointer noselect fill-color-picker-title">
           {this.renderColorCircle(this.props.color)} Fill color {this.renderCollapseChevron(this.state.fillColorPickerCollapsed)}
         </h3>
@@ -61,7 +61,7 @@ class ToolboxComponent extends React.Component {
   renderBgColorPicker() {
     const wrapperClass = `bg-color-picker ${this.state.bgColorPickerCollapsed ? 'hidden' : ''}`;
     return (
-      <div>
+      <div className="column">
         <h3 onClick={this.handleToggleBgColorPicker} className="cursor-pointer noselect bg-color-picker-title">
           {this.renderColorCircle(this.props.bgColor)} Background color {this.renderCollapseChevron(this.state.bgColorPickerCollapsed)}
         </h3>
@@ -73,26 +73,36 @@ class ToolboxComponent extends React.Component {
   render() {
     return (
       <div className="toolbox">
-        <div className="tools">
-          <button className={`fill-triangle-btn ${this.props.selectedTool === TOOLS.FILL_TRIANGLE ? 'selected' : ''} pure-button`}
-            onClick={this.handleToolClickedFn(TOOLS.FILL_TRIANGLE)}
-            title="Fill triangles one by one">
-            <i className="fa fa-pencil"></i>
-          </button>
-          <button className={`fill-rectangle-btn ${this.props.selectedTool === TOOLS.FILL_RECTANGLE ? 'selected' : ''} pure-button`}
-            onClick={this.handleToolClickedFn(TOOLS.FILL_RECTANGLE)}
-            title="Fill as rectangles">
-            <i className="fa fa-paint-brush"></i>
-          </button>
-          <button className={`erase-triangle-btn ${this.props.selectedTool === TOOLS.ERASER ? 'selected' : ''} pure-button`}
-            onClick={this.handleToolClickedFn(TOOLS.ERASER)}
-            title="Erase triangles one by one">
-            <i className="fa fa-eraser"></i>
-          </button>
+        <div className="columns">
+          <div className="column">
+            <button className={`fill-triangle-btn ${this.props.selectedTool === TOOLS.FILL_TRIANGLE ? 'is-success selected' : 'is-info'} button`}
+              onClick={this.handleToolClickedFn(TOOLS.FILL_TRIANGLE)}
+              title="Fill triangles one by one">
+              <i className="fa fa-pencil"></i>
+            </button>
+          </div>
+          <div className="column">
+            <button className={`fill-rectangle-btn ${this.props.selectedTool === TOOLS.FILL_RECTANGLE ? 'is-success selected' : 'is-info'} button`}
+              onClick={this.handleToolClickedFn(TOOLS.FILL_RECTANGLE)}
+              title="Fill as rectangles">
+              <i className="fa fa-paint-brush"></i>
+            </button>
+          </div>
+          <div className="column">
+            <button className={`erase-triangle-btn ${this.props.selectedTool === TOOLS.ERASER ? 'is-success selected' : 'is-info'} button`}
+              onClick={this.handleToolClickedFn(TOOLS.ERASER)}
+              title="Erase triangles one by one">
+              <i className="fa fa-eraser"></i>
+            </button>
+          </div>
         </div>
 
-        {this.renderFillColorPicker()}
-        {this.renderBgColorPicker()}
+        <div className="columns">
+          {this.renderFillColorPicker()}
+        </div>
+        <div className="columns">
+          {this.renderBgColorPicker()}
+        </div>
 
         <div className="save-options">
           <div className="show-grid-switch">
@@ -107,13 +117,15 @@ class ToolboxComponent extends React.Component {
             <span>Show Grid</span>
           </div>
 
-          <button className="save-png-btn pure-button block-button"
+          <button className="save-png-btn button block-button"
             onClick={this.props.onSavePng}>
-            <i className="fa fa-photo"></i> Save as PNG
+            <i className="fa fa-photo"></i>
+            <span> Save as PNG</span>
           </button>
-          <button className="save-svg-btn pure-button block-button"
+          <button className="save-svg-btn button block-button"
             onClick={this.props.onSaveSvg}>
-            <i className="fa fa-object-ungroup"></i> Save as SVG
+            <i className="fa fa-object-ungroup"></i>
+            <span> Save as SVG</span>
           </button>
         </div>
       </div>

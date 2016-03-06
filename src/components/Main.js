@@ -1,3 +1,4 @@
+require('bulma');
 require('../styles/App.scss');
 
 import React from 'react';
@@ -34,9 +35,13 @@ class AppComponent extends React.Component {
   }
   render() {
     return (
-      <div className="">
-        <Editor ref="editor" color={this.state.currentTool === TOOLS.ERASER ? null : this.state.currentColor} bgColor={this.state.currentBgColor} />
-        <Toolbox color={this.state.currentColor}
+      <div>
+        <Editor ref="editor"
+          color={this.state.currentTool === TOOLS.ERASER ? null : this.state.currentColor}
+          bgColor={this.state.currentBgColor} />
+        <Toolbox
+          selectedTool={this.state.currentTool}
+          color={this.state.currentColor}
           bgColor={this.state.currentBgColor}
           grid={this.state.showGrid}
           onGridChanged={this.onGridToggle}
