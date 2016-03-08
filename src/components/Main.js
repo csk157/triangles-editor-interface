@@ -23,10 +23,14 @@ class AppComponent extends React.Component {
   }
   onSavePng = () => {
     const l = document.createElement('a');
-    this.refs.editor.showGrid(false);
     l.href = this.refs.editor.getDataUrl();
-    this.refs.editor.showGrid(this.state.showGrid);
     l.download = 'triangles.png';
+    l.click();
+  }
+  onSaveSvg = () => {
+    const l = document.createElement('a');
+    l.href = `data:image/svg+xml;base64,${btoa(this.refs.editor.getSvg())}`;
+    l.download = 'triangles.svg';
     l.click();
   }
   onGridToggle = () => {

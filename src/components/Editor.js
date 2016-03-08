@@ -48,6 +48,9 @@ class EditorComponent extends React.Component {
   getDataUrl() {
     return this.state.editor.toDataUrl();
   }
+  getSvg() {
+    return this.state.editor.toSVG();
+  }
   showGrid(show) {
     if (show) {
       this.state.editor.showGrid();
