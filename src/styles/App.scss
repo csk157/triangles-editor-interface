@@ -9,7 +9,7 @@ canvas:active {
   right: 0;
   background-color: #FAFAFA;
   padding: 1em;
-  box-shadow: 0 0 10px #555;
+  box-shadow: -4px -8px 10px #555;
 }
 
 .tools {
@@ -24,9 +24,10 @@ canvas:active {
 .color-circle {
   display: inline-block;
   border-radius: 50%;
-  border: 1px solid #555;
-  height: 0.8em;
-  width: 0.8em;
+  height: 1em;
+  width: 1em;
+  box-shadow: 0 0 6px #555;
+  vertical-align: middle;
 }
 
 .hidden {
