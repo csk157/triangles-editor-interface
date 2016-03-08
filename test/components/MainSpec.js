@@ -56,12 +56,6 @@ describe('MainComponent', () => {
     expect(MainComponent.state.currentTool).to.be.equal(TOOLS.FILL_TRIANGLE);
   });
 
-  it('when currentTool is ERASER, editor color shoud be set to null', () => {
-    MainComponent.onToolChanged(TOOLS.ERASER);
-    const editors = TestUtils.scryRenderedComponentsWithType(MainComponent, Editor);
-    expect(editors[0].props.color).to.be.null;
-  });
-
   it('onColorChanged sets currentColor in state as hex', () => {
     MainComponent.onColorChanged(color);
     expect(MainComponent.state.currentColor).to.be.equal('#333333');

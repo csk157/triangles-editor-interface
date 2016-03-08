@@ -41,7 +41,8 @@ class AppComponent extends React.Component {
     return (
       <div>
         <Editor ref="editor"
-          color={this.state.currentTool === TOOLS.ERASER ? null : this.state.currentColor}
+          tool={this.state.currentTool}
+          color={this.state.currentColor}
           bgColor={this.state.currentBgColor} />
         <Toolbox
           selectedTool={this.state.currentTool}

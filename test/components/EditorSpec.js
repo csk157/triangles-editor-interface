@@ -9,6 +9,7 @@ import Chai, { expect } from 'chai';
 import spy from 'chai-spies';
 
 import Editor from 'components/Editor';
+import { TOOLS } from 'components/Toolbox';
 
 Chai.use(spy);
 
@@ -16,7 +17,7 @@ describe('EditorComponent', () => {
   let EditorComponent;
 
   beforeEach(() => {
-    EditorComponent = TestUtils.renderIntoDocument(<Editor color="#000000" />);
+    EditorComponent = TestUtils.renderIntoDocument(<Editor color="#000000" tool={TOOLS.FILL_TRIANGLE} />);
   });
 
   it('Renders canvas', () => expect(EditorComponent.refs.canvas).to.exist);
@@ -35,40 +36,45 @@ describe('EditorComponent', () => {
     expect(EditorComponent.state.isMouseDown).to.be.false;
   });
 
-  it('Calls editor fillTriangle on mouseDown', () => {
+  it('Calls editor applyCurrentTool on mouseDown', () => {
+    Chai.spy.on(EditorComponent, 'applyCurrentTool');
+    TestUtils.Simulate.mouseDown(EditorComponent.refs.canvas, {pageX: 100, pageY: 100});
+
+    expect(EditorComponent.applyCurrentTool).to.have.been.called.once;
+  });
+
+  it('applyCurrentTool calls fillTriangleAt when tool is FILL_TRIANGLE', () => {
     Chai.spy.on(EditorComponent.state.editor, 'fillTriangleAt');
     TestUtils.Simulate.mouseDown(EditorComponent.refs.canvas, {pageX: 100, pageY: 100});
 
     expect(EditorComponent.state.editor.fillTriangleAt).to.have.been.called.once;
   });
 
-  it('Color prop influences fillTriangleAt arguments', () => {
-    EditorComponent = TestUtils.renderIntoDocument(<Editor color="#FF0000" />);
-    Chai.spy.on(EditorComponent.state.editor, 'fillTriangleAt');
+  it('applyCurrentTool calls fillInRectangle when tool is FILL_RECTANGLE', () => {
+    EditorComponent = TestUtils.renderIntoDocument(<Editor color="#FF0000" tool={TOOLS.FILL_RECTANGLE} />);
+    Chai.spy.on(EditorComponent.state.editor, 'fillInRectangle');
     TestUtils.Simulate.mouseDown(EditorComponent.refs.canvas, {pageX: 100, pageY: 100});
-    TestUtils.Simulate.mouseMove(EditorComponent.refs.canvas, {pageX: 100, pageY: 100});
 
-    expect(EditorComponent.state.editor.fillTriangleAt).to.have.been.called.twice.with({x: 100, y: 100}, '#FF0000');
+    expect(EditorComponent.state.editor.fillInRectangle).to.have.been.called.once;
   });
 
-  it('Color prop null calls eraseTriangleAt', () => {
-    EditorComponent = TestUtils.renderIntoDocument(<Editor color={null} />);
+  it('applyCurrentTool calls eraseTriangleAt when tool is ERASER', () => {
+    EditorComponent = TestUtils.renderIntoDocument(<Editor color="#FF0000" tool={TOOLS.ERASER} />);
     Chai.spy.on(EditorComponent.state.editor, 'eraseTriangleAt');
     TestUtils.Simulate.mouseDown(EditorComponent.refs.canvas, {pageX: 100, pageY: 100});
-    TestUtils.Simulate.mouseMove(EditorComponent.refs.canvas, {pageX: 100, pageY: 100});
 
-    expect(EditorComponent.state.editor.eraseTriangleAt).to.have.been.called.twice.with({x: 100, y: 100});
+    expect(EditorComponent.state.editor.eraseTriangleAt).to.have.been.called.once;
   });
 
-  it('Calls editor fillTriangle on mouseMove when isMouseDown is true', () => {
-    Chai.spy.on(EditorComponent.state.editor, 'fillTriangleAt');
+  it('Calls editor applyCurrentTool on mouseMove when isMouseDown is true', () => {
+    Chai.spy.on(EditorComponent, 'applyCurrentTool');
 
     TestUtils.Simulate.mouseMove(EditorComponent.refs.canvas, {pageX: 100, pageY: 100});
-    expect(EditorComponent.state.editor.fillTriangleAt).to.not.have.been.called();
+    expect(EditorComponent.applyCurrentTool).to.not.have.been.called();
 
     TestUtils.Simulate.mouseDown(EditorComponent.refs.canvas, {pageX: 100, pageY: 100});
     TestUtils.Simulate.mouseMove(EditorComponent.refs.canvas, {pageX: 100, pageY: 100});
-    expect(EditorComponent.state.editor.fillTriangleAt).to.have.been.called.twice;
+    expect(EditorComponent.applyCurrentTool).to.have.been.called.twice;
   });
 
   it('setBackgroundColor sets editor\'s background color', () => {

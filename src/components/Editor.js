@@ -1,5 +1,6 @@
 import React from 'react';
 import TriangleEditor from 'triangles-editor';
+import { TOOLS } from './Toolbox';
 
 function eventToElementPoint(e) {
   return {
@@ -8,9 +9,13 @@ function eventToElementPoint(e) {
   };
 }
 
+const UNIT_SIZE = 20;
+const FILL_RECTANGLE_SIZE = 36;
+
 class EditorComponent extends React.Component {
   static propTypes = {
-    color: React.PropTypes.string,
+    color: React.PropTypes.string.isRequired,
+    tool: React.PropTypes.string.isRequired,
     bgColor: React.PropTypes.string.isRequired,
   }
   static defaultProps = {
@@ -29,14 +34,14 @@ class EditorComponent extends React.Component {
   }
   onMouseDown = (e) => {
     this.setState({isMouseDown: true});
-    this.fillTriangle(eventToElementPoint(e));
+    this.applyCurrentTool(eventToElementPoint(e));
   }
   onMouseMove = (e) => {
     if (!this.state.isMouseDown) {
       return;
     }
 
-    this.fillTriangle(eventToElementPoint(e));
+    this.applyCurrentTool(eventToElementPoint(e));
   }
   onMouseUp = () => this.setState({isMouseDown: false});
   setBackgroundColor(color) {
@@ -51,6 +56,22 @@ class EditorComponent extends React.Component {
   getSvg() {
     return this.state.editor.toSVG();
   }
+  applyCurrentTool(point) {
+    if (this.props.tool === TOOLS.ERASER) {
+      this.state.editor.eraseTriangleAt(point);
+    } else if (this.props.tool === TOOLS.FILL_TRIANGLE) {
+      this.state.editor.fillTriangleAt(point, this.props.color);
+    } else if (this.props.tool === TOOLS.FILL_RECTANGLE) {
+      const rect = {
+        x: point.x - (FILL_RECTANGLE_SIZE / 2),
+        y: point.y - (FILL_RECTANGLE_SIZE / 2),
+        width: FILL_RECTANGLE_SIZE,
+        height: FILL_RECTANGLE_SIZE
+      };
+
+      this.state.editor.fillInRectangle(rect, this.props.color);
+    }
+  }
   showGrid(show) {
     if (show) {
       this.state.editor.showGrid();
@@ -58,16 +79,9 @@ class EditorComponent extends React.Component {
       this.state.editor.hideGrid();
     }
   }
-  fillTriangle(point) {
-    if (this.props.color) {
-      this.state.editor.fillTriangleAt(point, this.props.color);
-    } else {
-      this.state.editor.eraseTriangleAt(point);
-    }
-  }
   createEditor() {
     this.setState({
-      editor: new TriangleEditor(this.refs.canvas, { unitSize: 20 }),
+      editor: new TriangleEditor(this.refs.canvas, { unitSize: UNIT_SIZE }),
     }, () => this.setBackgroundColor(this.props.bgColor));
   }
   render() {
